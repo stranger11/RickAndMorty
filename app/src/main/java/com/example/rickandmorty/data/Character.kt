@@ -16,7 +16,7 @@ data class Character(
         @SerializedName("pages")
         val pages: Int,
         @SerializedName("prev")
-        val prev: Any
+        val prev: String
     )
 
     data class Result(
