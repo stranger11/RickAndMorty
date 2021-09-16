@@ -1,7 +1,6 @@
 package com.example.rickandmorty.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmorty.data.Episode
 import com.example.rickandmorty.databinding.FragmentEpisodeBinding
-import com.example.rickandmorty.retrofit.RickAndMortyService
+import com.example.rickandmorty.data.RickAndMortyService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -47,9 +46,9 @@ class EpisodeFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        binding.recyclerView2.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewEpisodes.layoutManager = LinearLayoutManager(requireContext())
         episodeAdapter = EpisodeAdapter()
-        binding.recyclerView2.adapter = episodeAdapter
+        binding.recyclerViewEpisodes.adapter = episodeAdapter
     }
 
     private fun getEpisode(list: List<String>)  {

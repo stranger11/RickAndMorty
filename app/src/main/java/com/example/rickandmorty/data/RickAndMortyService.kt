@@ -1,7 +1,5 @@
-package com.example.rickandmorty.retrofit
+package com.example.rickandmorty.data
 
-import com.example.rickandmorty.data.Character
-import com.example.rickandmorty.data.Episode
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

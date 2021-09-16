@@ -1,7 +1,6 @@
 package com.example.rickandmorty.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.data.Character
 import com.example.rickandmorty.databinding.FragmentCharactersBinding
-import com.example.rickandmorty.retrofit.RickAndMortyService
+import com.example.rickandmorty.data.RickAndMortyService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -43,9 +42,9 @@ class CharactersFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewCharacters.layoutManager = LinearLayoutManager(requireContext())
         initAdapter()
-        binding.recyclerView.adapter = characterAdapter
+        binding.recyclerViewCharacters.adapter = characterAdapter
     }
 
     private fun initAdapter() {

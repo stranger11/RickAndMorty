@@ -14,9 +14,7 @@ data class Character(
         @SerializedName("next")
         val next: String,
         @SerializedName("pages")
-        val pages: Int,
-        @SerializedName("prev")
-        val prev: String
+        val pages: Int
     )
 
     data class Result(
