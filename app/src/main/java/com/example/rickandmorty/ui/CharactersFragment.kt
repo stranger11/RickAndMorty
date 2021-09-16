@@ -44,13 +44,17 @@ class CharactersFragment : Fragment() {
 
     private fun initRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        initAdapter()
+        binding.recyclerView.adapter = characterAdapter
+    }
+
+    private fun initAdapter() {
         characterAdapter = CharacterAdapter { listLinks ->
             sharedViewModel.linksEpisodes = listLinks
             parentFragmentManager.
             beginTransaction()
                 .replace(R.id.fragment_container, EpisodeFragment()).commit()
         }
-        binding.recyclerView.adapter = characterAdapter
     }
 
     private fun getCurrentData() {
