@@ -12,5 +12,5 @@ interface RickAndMortyService {
     fun getCharacters() : Call<Character>
 
     @GET ("episode/{episode}")
-    fun getEpisode(@Path("episode") episode:String) : Call<Episode>
+    fun getEpisode(@Path("episode") episode:String) : Call <List<Episode>>
 }

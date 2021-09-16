@@ -4,11 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.R
 import com.example.rickandmorty.data.Episode
 
-class EpisodeAdapter(private val episodes: List<Episode>) :  RecyclerView.Adapter<EpisodeViewHolder>() {
+class EpisodeAdapter : ListAdapter<Episode,
+        EpisodeViewHolder>(EpisodeDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
@@ -19,19 +22,24 @@ class EpisodeAdapter(private val episodes: List<Episode>) :  RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: EpisodeViewHolder, position: Int) {
-        val data = episodes[position]
-        holder.bind(data)
-    }
-
-    override fun getItemCount(): Int {
-        return episodes.size
+        holder.bind(getItem(position))
     }
 }
 
 class EpisodeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private var episode: TextView = view.findViewById(R.id.episode)
+    private var episodeName: TextView = view.findViewById(R.id.nameEpisode)
+    private var episodeDate: TextView = view.findViewById(R.id.dateEpisode)
 
     fun bind(item: Episode) {
-        episode.text = item.name
+        episodeName.text = item.name
+        episodeDate.text = item.airDate
     }
+}
+
+object EpisodeDiffCallback : DiffUtil.ItemCallback<Episode>() {
+    override fun areItemsTheSame(oldItem: Episode, newItem: Episode)
+            : Boolean = oldItem == newItem
+
+    override fun areContentsTheSame(oldItem: Episode, newItem: Episode)
+            : Boolean = oldItem == newItem
 }

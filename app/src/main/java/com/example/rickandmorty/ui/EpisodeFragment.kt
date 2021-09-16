@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmorty.data.Episode
@@ -41,40 +42,36 @@ class EpisodeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         initRecyclerView()
+        getEpisode(sharedViewModel.linksEpisodes!!)
 
     }
 
     private fun initRecyclerView() {
         binding.recyclerView2.layoutManager = LinearLayoutManager(requireContext())
-        episodeAdapter = EpisodeAdapter(getEpisode())
+        episodeAdapter = EpisodeAdapter()
         binding.recyclerView2.adapter = episodeAdapter
     }
 
-    private fun getEpisode() : List<Episode> {
-        val listResult : MutableList<Episode> = mutableListOf()
-        sharedViewModel.linksEpisodes?.forEach {
-            Log.d("SPISOK", it)
-            val a = it.substring(40)
-            getEpisodeService()
-                .getEpisode(a)
-                .enqueue(object : Callback<Episode> {
-                    override fun onResponse(
-                        call: Call<Episode>,
-                        response: Response<Episode>
-                    ) {
-                        if (response.code() in okStatusCodes) {
-                            val responseEpisodes = response.body()!!
-                            Log.d("RESPONSE", responseEpisodes.toString())
-                            listResult.add(responseEpisodes)
-                        }
+    private fun getEpisode(list: List<String>)  {
+        val numbers = list.map { link ->
+            link.filter { it.isDigit() } }.toString()
+        getEpisodeService()
+            .getEpisode(numbers)
+            .enqueue(object : Callback<List<Episode>> {
+                override fun onResponse(
+                    call: Call<List<Episode>>,
+                    response: Response<List<Episode>>
+                ) {
+                    if (response.code() in okStatusCodes) {
+                        val responseEpisodes = response.body()!!
+                        episodeAdapter.submitList(responseEpisodes)
                     }
+                }
+                override fun onFailure(call: Call<List<Episode>>, t: Throwable) {
+                        Toast.makeText(requireContext(), t.message, Toast.LENGTH_LONG).show()
+                }
+            })
 
-                    override fun onFailure(call: Call<Episode>, t: Throwable) {
-                        //Toast.makeText(getApplication(), t.message, Toast.LENGTH_LONG).show()
-                    }
-                })
-        }
-        return listResult
     }
 
     private fun getEpisodeService(): RickAndMortyService {

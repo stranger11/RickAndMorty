@@ -15,10 +15,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment()
+        replaceCharacterFragment()
     }
 
-    private fun replaceFragment() {
+    private fun replaceCharacterFragment() {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, CharactersFragment())
