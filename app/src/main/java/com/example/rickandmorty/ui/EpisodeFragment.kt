@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rickandmorty.data.CharacterService
 import com.example.rickandmorty.data.EpisodeNW
 import com.example.rickandmorty.databinding.FragmentEpisodeBinding
 import com.example.rickandmorty.data.RickAndMortyService
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -19,15 +22,13 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASEURL = "https://rickandmortyapi.com/api/"
-
 class EpisodeFragment : Fragment() {
 
     private var _binding: FragmentEpisodeBinding? = null
     private val binding get() = _binding!!
     private lateinit var episodeAdapter: EpisodeAdapter
     private lateinit var sharedViewModel: SharedViewModel
-    private val okStatusCodes = 200..299
+    //private val okStatusCodes = 200..299
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,43 +52,11 @@ class EpisodeFragment : Fragment() {
         binding.recyclerViewEpisodes.adapter = episodeAdapter
     }
 
-    private fun getEpisode(list: List<String>)  {
-        val numbers = list.map { link ->
-            link.filter { it.isDigit() } }.toString()
-        getEpisodeService()
-            .getEpisode(numbers)
-            .enqueue(object : Callback<List<EpisodeNW>> {
-                override fun onResponse(
-                    call: Call<List<EpisodeNW>>,
-                    response: Response<List<EpisodeNW>>
-                ) {
-                    if (response.code() in okStatusCodes) {
-                        val responseEpisodes = response.body()!!
-                        episodeAdapter.submitList(responseEpisodes)
-                    }
-                }
-                override fun onFailure(call: Call<List<EpisodeNW>>, t: Throwable) {
-                        Toast.makeText(requireContext(), t.message, Toast.LENGTH_LONG).show()
-                }
-            })
-
-    }
-
-    private fun getEpisodeService(): RickAndMortyService {
-        val retrofit = Retrofit
-            .Builder()
-            .client(okHttpClient())
-            .baseUrl(BASEURL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        return retrofit.create(RickAndMortyService::class.java)
-    }
-
-    private fun okHttpClient(): OkHttpClient {
-        val logging = HttpLoggingInterceptor()
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
-        return OkHttpClient.Builder()
-            .addInterceptor(logging)
-            .build()
+    private fun getEpisode(list: List<String>) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val numbers = list.map { link ->
+                link.filter { it.isDigit() } }.toString()
+            episodeAdapter.submitList(CharacterService.getCharacterService().getEpisode(numbers))
+        }
     }
 }
