@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rickandmorty.data.Episode
+import com.example.rickandmorty.data.EpisodeNW
 import com.example.rickandmorty.databinding.FragmentEpisodeBinding
 import com.example.rickandmorty.data.RickAndMortyService
 import okhttp3.OkHttpClient
@@ -56,17 +56,17 @@ class EpisodeFragment : Fragment() {
             link.filter { it.isDigit() } }.toString()
         getEpisodeService()
             .getEpisode(numbers)
-            .enqueue(object : Callback<List<Episode>> {
+            .enqueue(object : Callback<List<EpisodeNW>> {
                 override fun onResponse(
-                    call: Call<List<Episode>>,
-                    response: Response<List<Episode>>
+                    call: Call<List<EpisodeNW>>,
+                    response: Response<List<EpisodeNW>>
                 ) {
                     if (response.code() in okStatusCodes) {
                         val responseEpisodes = response.body()!!
                         episodeAdapter.submitList(responseEpisodes)
                     }
                 }
-                override fun onFailure(call: Call<List<Episode>>, t: Throwable) {
+                override fun onFailure(call: Call<List<EpisodeNW>>, t: Throwable) {
                         Toast.makeText(requireContext(), t.message, Toast.LENGTH_LONG).show()
                 }
             })

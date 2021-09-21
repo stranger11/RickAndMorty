@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.R
-import com.example.rickandmorty.data.Episode
+import com.example.rickandmorty.data.EpisodeNW
 
-class EpisodeAdapter : ListAdapter<Episode,
+class EpisodeAdapter : ListAdapter<EpisodeNW,
         EpisodeViewHolder>(EpisodeDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeViewHolder {
@@ -30,16 +30,16 @@ class EpisodeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var episodeName: TextView = view.findViewById(R.id.nameEpisode)
     private var episodeDate: TextView = view.findViewById(R.id.dateEpisode)
 
-    fun bind(item: Episode) {
+    fun bind(item: EpisodeNW) {
         episodeName.text = item.name
         episodeDate.text = item.airDate
     }
 }
 
-object EpisodeDiffCallback : DiffUtil.ItemCallback<Episode>() {
-    override fun areItemsTheSame(oldItem: Episode, newItem: Episode)
+object EpisodeDiffCallback : DiffUtil.ItemCallback<EpisodeNW>() {
+    override fun areItemsTheSame(oldItem: EpisodeNW, newItem: EpisodeNW)
             : Boolean = oldItem == newItem
 
-    override fun areContentsTheSame(oldItem: Episode, newItem: Episode)
+    override fun areContentsTheSame(oldItem: EpisodeNW, newItem: EpisodeNW)
             : Boolean = oldItem == newItem
 }

@@ -3,7 +3,7 @@ package com.example.rickandmorty.data
 
 import com.google.gson.annotations.SerializedName
 
-data class Episode(
+data class EpisodeNW(
     @SerializedName("air_date")
     val airDate: String,
     @SerializedName("characters")

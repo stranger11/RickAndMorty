@@ -2,7 +2,7 @@ package com.example.rickandmorty.data
 
 import com.google.gson.annotations.SerializedName
 
-data class Character(
+data class CharacterNW(
     @SerializedName("info")
     val info: Info,
     @SerializedName("results")
@@ -14,7 +14,9 @@ data class Character(
         @SerializedName("next")
         val next: String,
         @SerializedName("pages")
-        val pages: Int
+        val pages: Int,
+        @SerializedName("prev")
+        val prev: String?
     )
 
     data class Result(
