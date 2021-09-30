@@ -4,13 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rickandmorty.R
+import com.example.rickandmorty.databinding.CharactersItemLayoutBinding
 import com.example.rickandmorty.domain.Characters
 
 import java.lang.IllegalArgumentException
@@ -30,11 +29,9 @@ class CharacterAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when(viewType) {
             VIEW_CHARACTER -> {
-                val view = LayoutInflater.from(parent.context).inflate(
-                R.layout.characters_item_layout,
-                parent,
-                false)
-                return CharacterViewHolder(view)}
+                val binding = CharactersItemLayoutBinding
+                    .inflate(LayoutInflater.from(parent.context))
+                return CharacterViewHolder(binding)}
 
             VIEW_LOAD_BUTTON -> {
                 val view = LayoutInflater.from(parent.context).inflate(
@@ -70,17 +67,15 @@ class CharacterAdapter(
     }
 }
 
-class CharacterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private var gender: TextView = view.findViewById(R.id.gender)
-    private var type: TextView = view.findViewById(R.id.type)
-    private var characterImage: ImageView = view.findViewById(R.id.characterImage)
+class CharacterViewHolder(private val binding: CharactersItemLayoutBinding)
+    : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: Characters.Character, onClick: (List<String>) -> Unit) {
-        gender.text = item.item.gender
-        type.text = item.item.gender
-        Glide.with(characterImage.context)
+        binding.gender.text = item.item.gender
+        binding.type.text = item.item.gender
+        Glide.with(binding.characterImage.context)
             .load(item.item.image)
-            .into(characterImage)
+            .into(binding.characterImage)
 
         itemView.setOnClickListener {
             onClick(item.item.episode)

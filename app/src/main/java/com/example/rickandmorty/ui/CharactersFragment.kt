@@ -1,7 +1,6 @@
 package com.example.rickandmorty.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +30,6 @@ class CharactersFragment : Fragment() {
             characterAdapter.submitList(it)
         }
         initRecyclerView()
-
         return binding.root
     }
 
@@ -44,10 +42,14 @@ class CharactersFragment : Fragment() {
     private fun initAdapter() {
         characterAdapter = CharacterAdapter ({ listLinks ->
             sharedViewModel.linksEpisodes = listLinks
-            parentFragmentManager.
-            beginTransaction()
-                .replace(R.id.fragment_container, EpisodeFragment()).commit()
+            episodeFragmentTransaction()
         }, { getNextPageCharacters() }, {})
+    }
+
+    private fun episodeFragmentTransaction() {
+        parentFragmentManager.
+        beginTransaction()
+            .replace(R.id.fragment_container, EpisodeFragment()).commit()
     }
 
     private fun getNextPageCharacters() {

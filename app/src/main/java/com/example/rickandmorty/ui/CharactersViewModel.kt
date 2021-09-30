@@ -1,16 +1,17 @@
 package com.example.rickandmorty.ui
 
+import android.util.Log
 import androidx.lifecycle.*
-import com.example.rickandmorty.data.CharacterService
+import com.example.rickandmorty.App
 import com.example.rickandmorty.domain.Characters
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 
 class CharactersViewModel : ViewModel() {
 
-    //private val okStatusCodes = 200..299
-    private var _characters : MutableLiveData<List<Characters>> =
+    private var _characters: MutableLiveData<List<Characters>> =
         MutableLiveData<List<Characters>>()
     var characters: LiveData<List<Characters>> = _characters
 
@@ -38,12 +39,18 @@ class CharactersViewModel : ViewModel() {
 
     fun getDataNextPage(page: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = CharacterService
-                .getCharacterService().
-                getNextCharacters(page.toString()).results
-            withContext(Dispatchers.Main) {
-                _characters.value = response.map { Characters.Character(it) }
-                addButtonLoad()
+            try {
+                val response = App.apiService.getNextCharacters(page.toString()).results
+                val charactersList = response.map { Characters.Character(it) }
+                withContext(Dispatchers.Main) {
+                    _characters.value = charactersList
+                    addButtonLoad()
+                }
+            } catch (e : Exception) {
+                withContext(Dispatchers.Main) {
+                    Log.d("HTTP", e.localizedMessage!!)
+                    addButtonError()
+                }
             }
         }
     }

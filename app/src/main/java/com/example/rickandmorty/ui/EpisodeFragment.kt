@@ -5,22 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rickandmorty.data.CharacterService
-import com.example.rickandmorty.data.EpisodeNW
+import com.example.rickandmorty.App
 import com.example.rickandmorty.databinding.FragmentEpisodeBinding
-import com.example.rickandmorty.data.RickAndMortyService
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class EpisodeFragment : Fragment() {
 
@@ -28,7 +18,6 @@ class EpisodeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var episodeAdapter: EpisodeAdapter
     private lateinit var sharedViewModel: SharedViewModel
-    //private val okStatusCodes = 200..299
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +32,6 @@ class EpisodeFragment : Fragment() {
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         initRecyclerView()
         getEpisode(sharedViewModel.linksEpisodes!!)
-
     }
 
     private fun initRecyclerView() {
@@ -56,7 +44,7 @@ class EpisodeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             val numbers = list.map { link ->
                 link.filter { it.isDigit() } }.toString()
-            episodeAdapter.submitList(CharacterService.getCharacterService().getEpisode(numbers))
+            episodeAdapter.submitList(App.apiService.getEpisode(numbers))
         }
     }
 }

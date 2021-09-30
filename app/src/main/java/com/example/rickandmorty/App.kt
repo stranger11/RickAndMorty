@@ -1,5 +1,7 @@
-package com.example.rickandmorty.data
+package com.example.rickandmorty
 
+import android.app.Application
+import com.example.rickandmorty.data.RickAndMortyService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -7,9 +9,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASEURL = "https://rickandmortyapi.com/api/"
 
-object CharacterService {
+class App : Application() {
 
-    fun getCharacterService(): RickAndMortyService {
+    override fun onCreate() {
+        super.onCreate()
+        apiService = getCharacterService()
+    }
+
+    private fun getCharacterService(): RickAndMortyService {
         val retrofit = Retrofit
             .Builder()
             .client(okHttpClient())
@@ -26,4 +33,10 @@ object CharacterService {
             .addInterceptor(logging)
             .build()
     }
+
+    companion object {
+        lateinit var apiService: RickAndMortyService
+        private set
+    }
 }
+
