@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rickandmorty.App
+import com.example.rickandmorty.data.ServiceProvider
 import com.example.rickandmorty.databinding.FragmentEpisodeBinding
 import kotlinx.coroutines.launch
 
@@ -44,7 +44,7 @@ class EpisodeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             val numbers = list.map { link ->
                 link.filter { it.isDigit() } }.toString()
-            episodeAdapter.submitList(App.apiService.getEpisode(numbers))
+            episodeAdapter.submitList(ServiceProvider.getCharacterService().getEpisode(numbers))
         }
     }
 }

@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rickandmorty.App
+import com.example.rickandmorty.App.Companion.repositoryImpl
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentCharactersBinding
 
@@ -25,7 +27,10 @@ class CharactersFragment : Fragment() {
     ): View? {
         _binding = FragmentCharactersBinding.inflate(inflater, container, false)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        charactersViewModel = ViewModelProvider(requireActivity()).get(CharactersViewModel::class.java)
+        charactersViewModel = ViewModelProvider(
+            requireActivity(),
+            CharacterViewModelFactory(repositoryImpl)
+        ).get(CharactersViewModel::class.java)
         charactersViewModel.characters.observe(viewLifecycleOwner) {
             characterAdapter.submitList(it)
         }

@@ -1,9 +1,9 @@
-package com.example.rickandmorty
+package com.example.rickandmorty.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.ActivityMainBinding
-import com.example.rickandmorty.ui.CharactersFragment
 
 
 class MainActivity : AppCompatActivity() {
