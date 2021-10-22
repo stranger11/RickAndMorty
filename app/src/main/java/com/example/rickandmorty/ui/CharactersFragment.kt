@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmorty.App
@@ -17,8 +20,9 @@ class CharactersFragment : Fragment() {
     private var _binding: FragmentCharactersBinding? = null
     private val binding get() = _binding!!
     private lateinit var characterAdapter: CharacterAdapter
-    private lateinit var sharedViewModel: SharedViewModel
-    private lateinit var charactersViewModel: CharactersViewModel
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val charactersViewModel: CharactersViewModel by viewModels {
+        CharacterViewModelFactory(repositoryImpl) }
     private var page = 1
 
     override fun onCreateView(
@@ -26,11 +30,7 @@ class CharactersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCharactersBinding.inflate(inflater, container, false)
-        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        charactersViewModel = ViewModelProvider(
-            requireActivity(),
-            CharacterViewModelFactory(repositoryImpl)
-        ).get(CharactersViewModel::class.java)
+       // sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         charactersViewModel.characters.observe(viewLifecycleOwner) {
             characterAdapter.submitList(it)
         }
