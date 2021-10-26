@@ -2,23 +2,23 @@ package com.example.rickandmorty.ui
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.rickandmorty.data.RickAndMortyRepositoryImpl
 import com.example.rickandmorty.domain.Characters
+import com.example.rickandmorty.domain.RickAndMortyRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
-class CharactersViewModel(repository: RickAndMortyRepositoryImpl) : ViewModel() {
+class CharactersViewModel(repository: RickAndMortyRepository) : ViewModel() {
 
     private var _characters: MutableLiveData<List<Characters>> =
         MutableLiveData<List<Characters>>()
     var characters: LiveData<List<Characters>> = _characters
     private val repository = repository
-    var page = 1
+    private var page = 1
 
     init {
-        getDataNextPage(1)
+        getDataNextPage()
     }
 
     private fun addButtonLoad() {
@@ -39,11 +39,12 @@ class CharactersViewModel(repository: RickAndMortyRepositoryImpl) : ViewModel() 
         }
     }
 
-    fun getDataNextPage(page: Int) {
+    fun getDataNextPage() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 withContext(Dispatchers.Main) {
                     _characters.value = repository.getCharactersPage(page)
+                    page++
                     addButtonLoad()
                 }
             } catch (e : Exception) {

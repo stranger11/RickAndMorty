@@ -2,6 +2,7 @@ package com.example.rickandmorty
 
 import android.app.Application
 import com.example.rickandmorty.data.RickAndMortyRepositoryImpl
+import com.example.rickandmorty.domain.RickAndMortyRepository
 
 class App : Application() {
 
@@ -11,7 +12,7 @@ class App : Application() {
     }
 
     companion object {
-        lateinit var repository: RickAndMortyRepositoryImpl
+        lateinit var repository: RickAndMortyRepository
         private set
     }
 }

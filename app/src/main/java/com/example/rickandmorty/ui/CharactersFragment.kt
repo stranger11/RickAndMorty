@@ -19,7 +19,8 @@ class CharactersFragment : Fragment() {
     private lateinit var characterAdapter: CharacterAdapter
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val charactersViewModel: CharactersViewModel by viewModels {
-        CharacterViewModelFactory(repository) }
+        CharacterViewModelFactory(repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,21 +41,19 @@ class CharactersFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        characterAdapter = CharacterAdapter ({ listLinks ->
+        characterAdapter = CharacterAdapter({ listLinks ->
             sharedViewModel.linksEpisodes = listLinks
             episodeFragmentTransaction()
         }, { getNextPageCharacters() }, {})
     }
 
     private fun episodeFragmentTransaction() {
-        parentFragmentManager.
-        beginTransaction()
+        parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, EpisodeFragment()).commit()
     }
 
     private fun getNextPageCharacters() {
-        charactersViewModel.page++
-        charactersViewModel.getDataNextPage(charactersViewModel.page)
+        charactersViewModel.getDataNextPage()
         charactersViewModel.characters.observe(viewLifecycleOwner) {
             characterAdapter.submitList(it)
         }
