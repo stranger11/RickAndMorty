@@ -41,6 +41,6 @@ class EpisodeFragment : Fragment() {
 
     private fun getEpisode(list: List<String>) {
         episodeViewModel.getEpisode(list)
-        episodeViewModel.episodes.observe(viewLifecycleOwner, {episodeAdapter.submitList(it)})
+        episodeViewModel.episodes.observe(viewLifecycleOwner, { episodeAdapter.submitList(it) })
     }
 }

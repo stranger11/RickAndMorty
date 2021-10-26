@@ -17,7 +17,8 @@ class EpisodeAdapter : ListAdapter<EpisodeNW,
         val view = LayoutInflater.from(parent.context).inflate(
             R.layout.episodes_item_layout,
             parent,
-            false)
+            false
+        )
         return EpisodeViewHolder(view)
     }
 

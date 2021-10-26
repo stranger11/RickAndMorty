@@ -13,7 +13,7 @@ class App : Application() {
 
     companion object {
         lateinit var repository: RickAndMortyRepository
-        private set
+            private set
     }
 }
 

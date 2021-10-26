@@ -17,7 +17,8 @@ import java.lang.IllegalArgumentException
 class CharacterAdapter(
     private var onClick: (List<String>) -> Unit,
     private var loadButton: () -> Unit,
-    private var errorButton: ()-> Unit) : ListAdapter<Characters,
+    private var errorButton: () -> Unit
+) : ListAdapter<Characters,
         RecyclerView.ViewHolder>(CharacterDiffCallback) {
 
     companion object {
@@ -27,48 +28,56 @@ class CharacterAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        when(viewType) {
+        when (viewType) {
             VIEW_CHARACTER -> {
                 val binding = CharactersItemLayoutBinding
                     .inflate(LayoutInflater.from(parent.context))
-                return CharacterViewHolder(binding)}
+                return CharacterViewHolder(binding)
+            }
 
             VIEW_LOAD_BUTTON -> {
                 val view = LayoutInflater.from(parent.context).inflate(
                     R.layout.load_button_layout,
                     parent,
-                    false)
-                return ButtonViewHolder(view)}
+                    false
+                )
+                return ButtonViewHolder(view)
+            }
 
             VIEW_ERROR_BUTTON -> {
                 val view = LayoutInflater.from(parent.context).inflate(
                     R.layout.error_item_layout,
                     parent,
-                    false)
-                return ErrorViewHolder(view)}
+                    false
+                )
+                return ErrorViewHolder(view)
+            }
 
             else -> throw IllegalArgumentException("failed")
         }
     }
 
     override fun getItemViewType(position: Int) =
-        when(getItem(position)) {
+        when (getItem(position)) {
             is Characters.Character -> VIEW_CHARACTER
             is Characters.ButtonLoad -> VIEW_LOAD_BUTTON
             is Characters.Error -> VIEW_ERROR_BUTTON
         }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(holder) {
-            is CharacterViewHolder -> holder.bind(getItem(position)as Characters.Character, onClick)
+        when (holder) {
+            is CharacterViewHolder -> holder.bind(
+                getItem(position) as Characters.Character,
+                onClick
+            )
             is ButtonViewHolder -> holder.bind(loadButton)
             is ErrorViewHolder -> holder.bind(errorButton)
         }
     }
 }
 
-class CharacterViewHolder(private val binding: CharactersItemLayoutBinding)
-    : RecyclerView.ViewHolder(binding.root) {
+class CharacterViewHolder(private val binding: CharactersItemLayoutBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: Characters.Character, onClick: (List<String>) -> Unit) {
         binding.gender.text = item.item.gender

@@ -19,7 +19,8 @@ class EpisodeViewModel : ViewModel() {
     fun getEpisode(list: List<String>) {
         viewModelScope.launch(Dispatchers.IO) {
             val numbers = list.map { link ->
-                link.filter { it.isDigit() } }.toString()
+                link.filter { it.isDigit() }
+            }.toString()
             withContext(Dispatchers.Main) {
                 _episodes.value = ServiceProvider.getCharacterService().getEpisode(numbers)
             }

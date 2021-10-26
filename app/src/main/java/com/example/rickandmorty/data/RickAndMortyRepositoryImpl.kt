@@ -5,10 +5,9 @@ import com.example.rickandmorty.domain.RickAndMortyRepository
 
 class RickAndMortyRepositoryImpl : RickAndMortyRepository {
 
-    override suspend fun getCharactersPage(page : Int): List<Characters.Character> {
-        val response = ServiceProvider
+    override suspend fun getCharactersPage(page: Int): List<Characters.Character> {
+        return ServiceProvider
             .getCharacterService()
-            .getNextCharacters(page.toString()).results
-        return response.map { Characters.Character(it) }
+            .getNextCharacters(page.toString()).results.map { Characters.Character(it) }
     }
 }

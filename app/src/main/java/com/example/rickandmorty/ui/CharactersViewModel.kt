@@ -47,7 +47,7 @@ class CharactersViewModel(repository: RickAndMortyRepository) : ViewModel() {
                     page++
                     addButtonLoad()
                 }
-            } catch (e : Exception) {
+            } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Log.d("HTTP", e.localizedMessage!!)
                     addButtonError()
