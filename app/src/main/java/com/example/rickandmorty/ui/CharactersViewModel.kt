@@ -9,12 +9,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
-class CharactersViewModel(repositoryImpl: RickAndMortyRepositoryImpl) : ViewModel() {
+class CharactersViewModel(repository: RickAndMortyRepositoryImpl) : ViewModel() {
 
     private var _characters: MutableLiveData<List<Characters>> =
         MutableLiveData<List<Characters>>()
     var characters: LiveData<List<Characters>> = _characters
-    private val repository = repositoryImpl
+    private val repository = repository
+    var page = 1
 
     init {
         getDataNextPage(1)

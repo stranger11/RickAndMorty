@@ -7,11 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rickandmorty.App
-import com.example.rickandmorty.App.Companion.repositoryImpl
+import com.example.rickandmorty.App.Companion.repository
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentCharactersBinding
 
@@ -22,15 +19,13 @@ class CharactersFragment : Fragment() {
     private lateinit var characterAdapter: CharacterAdapter
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val charactersViewModel: CharactersViewModel by viewModels {
-        CharacterViewModelFactory(repositoryImpl) }
-    private var page = 1
+        CharacterViewModelFactory(repository) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCharactersBinding.inflate(inflater, container, false)
-       // sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         charactersViewModel.characters.observe(viewLifecycleOwner) {
             characterAdapter.submitList(it)
         }
@@ -58,8 +53,8 @@ class CharactersFragment : Fragment() {
     }
 
     private fun getNextPageCharacters() {
-        page++
-        charactersViewModel.getDataNextPage(page)
+        charactersViewModel.page++
+        charactersViewModel.getDataNextPage(charactersViewModel.page)
         charactersViewModel.characters.observe(viewLifecycleOwner) {
             characterAdapter.submitList(it)
         }

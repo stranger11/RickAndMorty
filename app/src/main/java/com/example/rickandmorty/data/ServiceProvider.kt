@@ -6,8 +6,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASEURL = "https://rickandmortyapi.com/api/"
-
 object ServiceProvider {
 
     fun getCharacterService(): RickAndMortyService {

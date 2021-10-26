@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,13 +21,13 @@ class EpisodeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var episodeAdapter: EpisodeAdapter
     private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val episodeViewModel: EpisodeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentEpisodeBinding.inflate(inflater, container, false)
-        //sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         initRecyclerView()
         getEpisode(sharedViewModel.linksEpisodes!!)
         return binding.root
@@ -39,10 +40,7 @@ class EpisodeFragment : Fragment() {
     }
 
     private fun getEpisode(list: List<String>) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val numbers = list.map { link ->
-                link.filter { it.isDigit() } }.toString()
-            episodeAdapter.submitList(ServiceProvider.getCharacterService().getEpisode(numbers))
-        }
+        episodeViewModel.getEpisode(list)
+        episodeViewModel.episodes.observe(viewLifecycleOwner, {episodeAdapter.submitList(it)})
     }
 }
