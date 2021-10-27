@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.R
-import com.example.rickandmorty.data.EpisodeNW
+import com.example.rickandmorty.data.network.EpisodeNW
 
 class EpisodeAdapter : ListAdapter<EpisodeNW,
         EpisodeViewHolder>(EpisodeDiffCallback) {
@@ -17,7 +17,8 @@ class EpisodeAdapter : ListAdapter<EpisodeNW,
         val view = LayoutInflater.from(parent.context).inflate(
             R.layout.episodes_item_layout,
             parent,
-            false)
+            false
+        )
         return EpisodeViewHolder(view)
     }
 

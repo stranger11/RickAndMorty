@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rickandmorty.App.Companion.repository
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentCharactersBinding
 
@@ -15,17 +17,16 @@ class CharactersFragment : Fragment() {
     private var _binding: FragmentCharactersBinding? = null
     private val binding get() = _binding!!
     private lateinit var characterAdapter: CharacterAdapter
-    private lateinit var sharedViewModel: SharedViewModel
-    private lateinit var charactersViewModel: CharactersViewModel
-    private var page = 1
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val charactersViewModel: CharactersViewModel by viewModels {
+        CharacterViewModelFactory(repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCharactersBinding.inflate(inflater, container, false)
-        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        charactersViewModel = ViewModelProvider(requireActivity()).get(CharactersViewModel::class.java)
         charactersViewModel.characters.observe(viewLifecycleOwner) {
             characterAdapter.submitList(it)
         }
@@ -40,21 +41,19 @@ class CharactersFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        characterAdapter = CharacterAdapter ({ listLinks ->
+        characterAdapter = CharacterAdapter({ listLinks ->
             sharedViewModel.linksEpisodes = listLinks
             episodeFragmentTransaction()
         }, { getNextPageCharacters() }, {})
     }
 
     private fun episodeFragmentTransaction() {
-        parentFragmentManager.
-        beginTransaction()
+        parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, EpisodeFragment()).commit()
     }
 
     private fun getNextPageCharacters() {
-        page++
-        charactersViewModel.getDataNextPage(page)
+        charactersViewModel.getDataNextPage()
         charactersViewModel.characters.observe(viewLifecycleOwner) {
             characterAdapter.submitList(it)
         }

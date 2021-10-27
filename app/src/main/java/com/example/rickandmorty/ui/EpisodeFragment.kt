@@ -5,10 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rickandmorty.App
+import com.example.rickandmorty.data.ServiceProvider
 import com.example.rickandmorty.databinding.FragmentEpisodeBinding
 import kotlinx.coroutines.launch
 
@@ -17,21 +20,17 @@ class EpisodeFragment : Fragment() {
     private var _binding: FragmentEpisodeBinding? = null
     private val binding get() = _binding!!
     private lateinit var episodeAdapter: EpisodeAdapter
-    private lateinit var sharedViewModel: SharedViewModel
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val episodeViewModel: EpisodeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentEpisodeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         initRecyclerView()
         getEpisode(sharedViewModel.linksEpisodes!!)
+        return binding.root
     }
 
     private fun initRecyclerView() {
@@ -41,10 +40,7 @@ class EpisodeFragment : Fragment() {
     }
 
     private fun getEpisode(list: List<String>) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val numbers = list.map { link ->
-                link.filter { it.isDigit() } }.toString()
-            episodeAdapter.submitList(App.apiService.getEpisode(numbers))
-        }
+        episodeViewModel.getEpisode(list)
+        episodeViewModel.episodes.observe(viewLifecycleOwner, { episodeAdapter.submitList(it) })
     }
 }

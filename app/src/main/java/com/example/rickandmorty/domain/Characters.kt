@@ -1,6 +1,6 @@
 package com.example.rickandmorty.domain
 
-import com.example.rickandmorty.data.CharacterNW
+import com.example.rickandmorty.data.network.CharacterNW
 
 sealed class Characters {
 

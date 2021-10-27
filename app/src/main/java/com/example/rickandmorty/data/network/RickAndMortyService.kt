@@ -1,4 +1,4 @@
-package com.example.rickandmorty.data
+package com.example.rickandmorty.data.network
 
 import retrofit2.http.GET
 import retrofit2.http.Path
