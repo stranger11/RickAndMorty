@@ -1,11 +1,9 @@
 package com.example.rickandmorty.domain
 
-import com.example.rickandmorty.data.network.CharacterNW
-
 sealed class Characters {
 
     data class Character (
-        val item: CharacterNW.Result
+        val item: CharacterInfo.Result
     ) : Characters()
 
     object ButtonLoad : Characters()
