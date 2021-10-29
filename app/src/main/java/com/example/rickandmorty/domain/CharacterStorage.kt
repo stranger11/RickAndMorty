@@ -1,9 +1,9 @@
 package com.example.rickandmorty.domain
 
-data class CharacterInfo (
-    val results: List<Result>
+data class CharacterStorage (
+    val characterData: List<CharacterData>
 ) {
-    data class Result(
+    data class CharacterData(
         val episode: List<String>,
         val gender: String,
         val image: String,

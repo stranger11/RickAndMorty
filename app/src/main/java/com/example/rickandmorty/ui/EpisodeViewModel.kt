@@ -22,9 +22,9 @@ class EpisodeViewModel @Inject constructor(private val repository: RickAndMortyR
 
     fun getEpisode(list: List<String>) {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = repository.getEpisode(list)
+            val episodesResponse = repository.getEpisode(list)
             withContext(Dispatchers.Main) {
-                _episodes.value = response
+                _episodes.value = episodesResponse
             }
         }
     }
