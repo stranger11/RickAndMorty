@@ -1,7 +1,7 @@
 package com.example.rickandmorty.domain
 
 data class CharacterStorage (
-    val characterData: List<CharacterData>
+    val charactersList: List<CharacterData>
 ) {
     data class CharacterData(
         val episode: List<String>,
