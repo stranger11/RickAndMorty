@@ -1,14 +1,11 @@
 package com.example.rickandmorty.ui
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.CharactersItemLayoutBinding
 import com.example.rickandmorty.databinding.ErrorItemLayoutBinding
 import com.example.rickandmorty.databinding.LoadButtonLayoutBinding
@@ -76,14 +73,14 @@ class CharacterViewHolder(private val binding: CharactersItemLayoutBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: Characters.Character, onClick: (List<String>) -> Unit) {
-        binding.gender.text = item.item.gender
-        binding.type.text = item.item.type
+        binding.gender.text = item.character.gender
+        binding.type.text = item.character.type
         Glide.with(binding.characterImage.context)
-            .load(item.item.image)
+            .load(item.character.image)
             .into(binding.characterImage)
 
         itemView.setOnClickListener {
-            onClick(item.item.episode)
+            onClick(item.character.episode)
         }
     }
 }

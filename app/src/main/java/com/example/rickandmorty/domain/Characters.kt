@@ -3,7 +3,7 @@ package com.example.rickandmorty.domain
 sealed class Characters {
 
     data class Character (
-        val item: CharacterStorage.CharacterData
+        val character: CharacterStorage.CharacterData
     ) : Characters()
 
     object ButtonLoad : Characters()
