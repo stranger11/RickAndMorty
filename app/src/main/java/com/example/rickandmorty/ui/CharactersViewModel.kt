@@ -4,17 +4,20 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.rickandmorty.domain.Characters
 import com.example.rickandmorty.domain.RickAndMortyRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
+import javax.inject.Inject
 
-class CharactersViewModel(repository: RickAndMortyRepository) : ViewModel() {
+@HiltViewModel
+class CharactersViewModel @Inject constructor(private val repository: RickAndMortyRepository) :
+    ViewModel() {
 
     private var _characters: MutableLiveData<List<Characters>> =
         MutableLiveData<List<Characters>>()
     var characters: LiveData<List<Characters>> = _characters
-    private val repository = repository
     private var page = 1
 
     init {

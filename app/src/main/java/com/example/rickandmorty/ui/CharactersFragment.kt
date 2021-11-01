@@ -8,19 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rickandmorty.App.Companion.repository
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentCharactersBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CharactersFragment : Fragment() {
 
     private var _binding: FragmentCharactersBinding? = null
     private val binding get() = _binding!!
     private lateinit var characterAdapter: CharacterAdapter
     private val sharedViewModel: SharedViewModel by activityViewModels()
-    private val charactersViewModel: CharactersViewModel by viewModels {
-        CharacterViewModelFactory(repository)
-    }
+    private val charactersViewModel: CharactersViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

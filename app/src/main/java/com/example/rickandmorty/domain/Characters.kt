@@ -1,11 +1,11 @@
 package com.example.rickandmorty.domain
 
-import com.example.rickandmorty.data.network.CharacterNW
+import com.example.rickandmorty.ui.model.CharacterStorage
 
 sealed class Characters {
 
     data class Character (
-        val item: CharacterNW.Result
+        val character: CharacterStorage.CharacterData
     ) : Characters()
 
     object ButtonLoad : Characters()
