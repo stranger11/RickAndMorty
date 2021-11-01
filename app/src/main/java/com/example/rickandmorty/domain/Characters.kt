@@ -1,5 +1,7 @@
 package com.example.rickandmorty.domain
 
+import com.example.rickandmorty.ui.model.CharacterStorage
+
 sealed class Characters {
 
     data class Character (

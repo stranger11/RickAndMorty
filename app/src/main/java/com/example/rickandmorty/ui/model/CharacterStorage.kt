@@ -1,4 +1,4 @@
-package com.example.rickandmorty.domain
+package com.example.rickandmorty.ui.model
 
 data class CharacterStorage (
     val charactersList: List<CharacterData>

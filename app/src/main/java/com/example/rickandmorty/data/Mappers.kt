@@ -2,7 +2,7 @@ package com.example.rickandmorty.data
 
 import com.example.rickandmorty.data.network.CharacterNW
 import com.example.rickandmorty.data.network.EpisodeNW
-import com.example.rickandmorty.domain.CharacterStorage
+import com.example.rickandmorty.ui.model.CharacterStorage
 import com.example.rickandmorty.domain.Characters
 import com.example.rickandmorty.domain.Episode
 
